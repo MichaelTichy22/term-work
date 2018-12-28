@@ -1,0 +1,31 @@
+<table>
+    <tr>
+        <?php foreach ($this->getColumns() as $column) :?>
+            <th><?= $column['header'] ?></th>
+        <?php endforeach; ?>
+        <?php if(isset($_SESSION['user'])) : ?>
+            <?php if($_SESSION['user']['role'] == 2) : ?>
+                <th>
+                    Akce
+                </th>
+            <?php endif ?>
+        <?php endif ?>
+    </tr>
+    <?php foreach ($this->getDataSet() as $row) : ?>
+        <tr>
+            <?php foreach($this->getColumns() as $key => $value) : ?>
+                <td>
+                    <?= $row[$key] ?>
+                </td>
+            <? endforeach; ?>
+            <?php if(isset($_SESSION['user'])) : ?>
+                <?php if($_SESSION['user']['role'] == 2) : ?>
+                    <td>
+                        <span>Upravit</span>
+                        <span>Smazat</span>
+                    </td>
+                <?php endif ?>
+            <?php endif ?>
+        </tr>
+    <? endforeach; ?>
+</table>

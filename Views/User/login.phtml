@@ -1,0 +1,14 @@
+<h2>Login</h2>
+<section>
+    <div id="loginFormMessages">
+        <?php if(!empty($_SESSION['message'])): ?>
+            <ul>
+                <?php foreach ($_SESSION['message'] as $message) : ?>
+                    <li><?= $message ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+    </div>
+    <?php $form->renderForm() ?>
+    <p><a href="/user/register">Zaregistrovat</a></p>
+</section>

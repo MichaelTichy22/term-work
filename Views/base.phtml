@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <base href="/localhost">
+        <meta charset="UTF-8">
+        <title><?= $head['title'] ?></title>
+        <meta name="description" content="<?= $head['description'] ?>">
+        <meta name="keywords" content="<?= $head['keywords'] ?>">
+    </head>
+
+    <body>
+        <header>
+            <h1>Semestrální práce</h1>
+        </header>
+        <nav>
+            <a href="/">Domů</a>
+            <?php if(isset($_SESSION['user'])) : ?>
+                <?php if($_SESSION['user']['role'] == 2) : ?>
+<!--                    <a href="/post/create">Vytvořit příspěvek</a>-->
+<!--                    <a href="/category/create">Vytvořit kategorii</a>-->
+                    <a href="/user/list">Seznam zaměstanců</a>
+                <?php endif ?>
+                <a href="/user/logout">Odhlásit se</a>
+            <?php else: ?>
+                <a href="/user/login">Přihlásit se</a>
+                <a href="/user/register">Registrace</a>
+            <?php endif; ?>
+        </nav>
+        <?php if(isset($_SESSION['user'])) : ?>
+                <div>
+                    <p>
+                        Přihlášen jako: <?= $_SESSION['user']['name']." ".$_SESSION['user']['surname'] ?>
+                        <?php if($_SESSION['user']['role'] == 2) : ?>
+                            (Administrátor)
+                        <?php endif ?>
+                    </p>
+                </div>
+        <?php endif; ?>
+        <hr>
+        <article>
+            <?php $controller->renderView() ?>
+        </article>
+        <hr>
+        <footer>
+            <p>Semestrální práce</p>
+            <p>Autor: Michael Tichý</p>
+        </footer>
+
+        <script src="/JavaScript/jQuery/3.3.1/jquery.min.js"></script>
+        <script src="/JavaScript/app.js"></script>
+    </body>
+</html>

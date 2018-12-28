@@ -1,0 +1,13 @@
+<h2>Registrace</h2>
+<section>
+    <div id="registerFormMessages">
+        <?php if(!empty($_SESSION['message'])): ?>
+            <ul>
+                <?php foreach ($_SESSION['message'] as $message) : ?>
+                    <li><?= $message ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+    </div>
+    <?php $form->renderForm() ?>
+</section>

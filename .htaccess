@@ -1,0 +1,8 @@
+Options -Indexes
+RewriteEngine On
+# Reqrite Base /
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule !\.(css|js|icon|zip|rar|png|jpg|gif|pdf)$ index.php [L]
+AddType application/x-https-php .php .phtml
