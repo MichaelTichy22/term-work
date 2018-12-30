@@ -1,0 +1,13 @@
+<div>
+    <h2>Vytvoř pracovní pozici</h2>
+    <div id="positionCreateFormMessages">
+        <?php if(!empty($_SESSION['message'])): ?>
+            <ul>
+                <?php foreach ($_SESSION['message'] as $message) : ?>
+                    <li><?= $message ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+    </div>
+    <?php $positionForm->renderForm(); ?>
+</div>

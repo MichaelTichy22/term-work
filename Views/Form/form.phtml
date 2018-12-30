@@ -1,34 +1,34 @@
-<form id="<?= $this->getName() ?>" method="<?= $this->getMethod() ?>" action="<?= $this->getAction() ?>">
-    <?php foreach ($this->getElements() as $element) : ?>
-        <div id="block-<?= $element['name']?>">
-            <?php if($element['label'] !== '') : ?>
-                <label for="<?= $element['name'] ?>"><?= $element['label'] ?></label><br>
-            <?php endif; ?>
-            <?php switch ($element['tag']) :
-                case 'input': ?>
-                    <input type="<?= $element['options']['type'] ?>"
-                           name="<?= $element['name'] ?>"
-                           id="<?= $element['name'] ?>"
-                           value="<?= $element['value'] ?>">
-                    <?php break; ?>
-                <?php case 'textArea': ?>
-                    <textarea
-                            name="<?= $element['name'] ?>"
-                            id="<?= $element['name'] ?>"
-                            cols="<?= $element['options']['cols'] ?>"
-                            rows="<?= $element['options']['rows'] ?>"
-                    ><?= $element['value'] ?></textarea>
-                    <?php break; ?>
-                <?php case 'select': ?>
-                    <select
-                            name="<?= $element['name'] ?>"
-                            id="<?= $element['name'] ?>">
-                        <?php foreach ($element['options']['options'] as $option) : ?>
-                            <option value="<?= $option['value'] ?>" <?= $option['selected'] ?>><?= $option['name'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <?php break; ?>
-                <?php endswitch; ?>
-        </div>
-    <?php endforeach ?>
-</form>
+ <form id="<?= $this->getName() ?>" method="<?= $this->getMethod() ?>" action="<?= $this->getAction() ?>">
+        <?php foreach ($this->getElements() as $element) : ?>
+            <div id="block-<?= $element['name']?>">
+                <?php if($element['label'] !== '') : ?>
+                    <label for="<?= $element['name'] ?>"><?= $element['label'] ?></label><br>
+                <?php endif; ?>
+                <?php switch ($element['tag']) :
+                    case 'input': ?>
+                        <input type="<?= $element['options']['type'] ?>"
+                               name="<?= $element['name'] ?>"
+                               id="<?= $element['name'] ?>"
+                               value="<?= $element['value'] ?>">
+                        <?php break; ?>
+                    <?php case 'textArea': ?>
+                        <textarea
+                                name="<?= $element['name'] ?>"
+                                id="<?= $element['name'] ?>"
+                                cols="<?= $element['options']['cols'] ?>"
+                                rows="<?= $element['options']['rows'] ?>"
+                        ><?= $element['value'] ?></textarea>
+                        <?php break; ?>
+                    <?php case 'select': ?>
+                        <select
+                                name="<?= $element['name'] ?>"
+                                id="<?= $element['name'] ?>">
+                            <?php foreach ($element['options']['options'] as $option) : ?>
+                                <option value="<?= $option['value'] ?>" <?= $option['selected'] ?>><?= $option['name'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?php break; ?>
+                    <?php endswitch; ?>
+            </div>
+        <?php endforeach ?>
+ </form>

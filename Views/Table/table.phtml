@@ -21,8 +21,8 @@
             <?php if(isset($_SESSION['user'])) : ?>
                 <?php if($_SESSION['user']['role'] == 2) : ?>
                     <td>
-                        <span>Upravit</span>
-                        <span>Smazat</span>
+                        <span><a href="/<?= $this->getName() ?>/edit/<?= $row['id_'.$this->getName()]?>"> Upravit</a></span>
+                        <span><a href="/<?= $this->getName() ?>/delete/<?= $row['id_'.$this->getName()]?>">Smazat</a></span>
                     </td>
                 <?php endif ?>
             <?php endif ?>

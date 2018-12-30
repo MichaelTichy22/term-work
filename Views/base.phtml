@@ -17,8 +17,8 @@
             <?php if(isset($_SESSION['user'])) : ?>
                 <?php if($_SESSION['user']['role'] == 2) : ?>
 <!--                    <a href="/post/create">Vytvořit příspěvek</a>-->
-<!--                    <a href="/category/create">Vytvořit kategorii</a>-->
-                    <a href="/user/list">Seznam zaměstanců</a>
+                    <a href="/user/list">Zaměstnanci</a>
+                    <a href="/position/list">Pracovní pozice</a>
                 <?php endif ?>
                 <a href="/user/logout">Odhlásit se</a>
             <?php else: ?>

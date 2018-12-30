@@ -21,7 +21,7 @@ abstract class EntityManager
      */
     public  function  getById(DatabaseManager $db, $id)
     {
-        $query = 'SELECT * FROM '.$this->table.' WHERE id = ?';
+        $query = 'SELECT * FROM '.$this->table.'  WHERE id_'.$this->table.' = ?';
         return $db->queryOne($query, [$id]);
     }
 
@@ -32,7 +32,7 @@ abstract class EntityManager
      */
     public function deleteById(DatabaseManager $db, $id)
     {
-        $query = 'DELETE FROM '.$this->table.' WHERE id = ?';
+        $query = 'DELETE FROM '.$this->table.' WHERE id_'.$this->table.' = ?';
         return $db->query($query, [$id]);
     }
 

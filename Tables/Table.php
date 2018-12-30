@@ -10,10 +10,12 @@ abstract class Table
 {
     private $dataSet;
     private $columns;
+    private $name;
 
-    public function __construct($dataSet)
+    public function __construct($dataSet, $name)
     {
         $this->dataSet = $dataSet;
+        $this->name = $name;
     }
 
     abstract function build(DatabaseManager $db = null);
@@ -25,7 +27,11 @@ abstract class Table
 
     public function renderTable()
     {
-        require "./Views/Table/table.phtml";
+        if (empty($this->getDataSet())){
+            echo "Tabulka je prázdná";
+        }else{
+            require "./Views/Table/table.phtml";
+        }
     }
 
     /**
@@ -43,4 +49,13 @@ abstract class Table
     {
         return $this->columns;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
 }
