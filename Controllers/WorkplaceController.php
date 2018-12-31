@@ -142,7 +142,7 @@ class WorkplaceController extends Controller
     public function deleteAction($parameters)
     {
         if(isset($_SESSION['user'])){
-            if($_SESSION['user']['position']!=0){
+            if($_SESSION['user']['role']!=2){
                 $this->redirect('home/index');
             }
             $this->checkParametersMaxCount($parameters, 1);

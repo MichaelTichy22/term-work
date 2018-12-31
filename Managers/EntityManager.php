@@ -10,7 +10,7 @@ abstract class EntityManager
      */
     public function getAll(DatabaseManager $db, $orderBy, $order)
     {
-        $query = 'SELECT * FROM '.$this->table.' ORDER BY '.$orderBy.' '.$order;
+        $query = 'SELECT * FROM `'.$this->table.'` ORDER BY '.$orderBy.' '.$order;
         return $db->queryAll($query);
     }
 
@@ -21,7 +21,7 @@ abstract class EntityManager
      */
     public  function  getById(DatabaseManager $db, $id)
     {
-        $query = 'SELECT * FROM '.$this->table.'  WHERE id_'.$this->table.' = ?';
+        $query = 'SELECT * FROM `'.$this->table.'`  WHERE id_'.$this->table.' = ?';
         return $db->queryOne($query, [$id]);
     }
 
@@ -32,7 +32,7 @@ abstract class EntityManager
      */
     public function deleteById(DatabaseManager $db, $id)
     {
-        $query = 'DELETE FROM '.$this->table.' WHERE id_'.$this->table.' = ?';
+        $query = 'DELETE FROM `'.$this->table.'` WHERE id_'.$this->table.' = ?';
         return $db->query($query, [$id]);
     }
 
