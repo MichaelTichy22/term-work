@@ -98,7 +98,7 @@ class PositionController extends Controller
         $positionForm->build();
         $positionForm->addElement('submit-edit', '', 'input',[
             'type' => 'submit',
-        ], 'Editovat');
+        ], 'Upravit');
         $positionForm->setValues([
             $position['name'],
         ]);

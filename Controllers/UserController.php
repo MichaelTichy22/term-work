@@ -151,7 +151,7 @@ class UserController extends Controller
 
         $userManager = new UserManager();
         $users = $userManager->getAll($this->db, 'surname', 'ASC');
-        $userTable = new UserTable($users);
+        $userTable = new UserTable($users, 'user');
         $userTable->build();
 
         $this->head = [

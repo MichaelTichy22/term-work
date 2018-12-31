@@ -1,6 +1,6 @@
 <div>
     <h2><?= $header ?></h2>
-    <div id="positionCreateFormMessages">
+    <div id="workplaceCreateFormMessages">
         <?php if(!empty($_SESSION['message'])): ?>
             <ul>
                 <?php foreach ($_SESSION['message'] as $message) : ?>
@@ -9,5 +9,5 @@
             </ul>
         <?php endif; ?>
     </div>
-    <?php $positionForm->renderForm(); ?>
+    <?php $workplaceForm->renderForm(); ?>
 </div>
