@@ -18,6 +18,6 @@ class TaskTable extends Table
         $this->addColumn('state', 'Stav');
         $this->addColumn('description', 'Popis');
         $this->addColumn('id_user', 'Zaměstnanec');
-        $this->addColumn('id_order', 'Zákazník');
+        $this->addColumn('id_order', 'Zákázka');
     }
 }
