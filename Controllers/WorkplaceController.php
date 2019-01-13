@@ -18,7 +18,7 @@ class WorkplaceController extends Controller
         }
         $workplaceManager = new WorkplaceManager();
         $workplaces = $workplaceManager->getAll($this->db, 'id_workplace', 'ASC');
-        $workplaceTable = new PositionTable($workplaces, 'workplace');
+        $workplaceTable = new WorkplaceTable($workplaces, 'workplace');
         $workplaceTable->build();
 
         $this->head = [
@@ -131,7 +131,7 @@ class WorkplaceController extends Controller
         ];
 
         $this->data['workplaceForm'] = $workplaceForm;
-        $this->data['header'] = 'Upravit pracovní pozici';
+        $this->data['header'] = 'Upravit oddělení';
 
         $this->view = 'Workplace/form';
     }

@@ -19,6 +19,5 @@ class WorkplaceForm extends Form
                  'notBlank',
              ],
          ]);
-
     }
 }
