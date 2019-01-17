@@ -16,8 +16,6 @@ class HomeController extends Controller
         $this->checkParametersMaxCount($parameters,1);
         $postManager = new PostManager();
         $posts = $postManager->getAll($this->db,'create_date', 'DESC');
-//        $postTable = new PostTable($posts);
-//        $postTable->build();
 
         $this->head = [
             'title' => 'Domovská stránka',
@@ -25,7 +23,7 @@ class HomeController extends Controller
             'description' => 'Úvodní stránka',
         ];
 
-//        $this->data['postTable'] = $postTable;
+        $this->data['posts'] = $posts;
 
         $this->view = 'home';
     }

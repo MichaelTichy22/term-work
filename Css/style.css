@@ -1,0 +1,29 @@
+body{
+
+}
+.main {
+    margin: auto;
+    alignment: center;
+    padding-top: 10px;
+}
+
+header{
+    top: 0;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+    height: 50px;
+}
+
+header nav a{
+    display: inline-block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: underline;
+    font-size: 18px;
+}

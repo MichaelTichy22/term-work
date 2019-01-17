@@ -24,21 +24,7 @@ class PostManager extends EntityManager
      * @return mixed
      */
     public function editPost(DatabaseManager $db, $parameters){
-        $query = 'UPDATE '.$this->table.' SET title = ?, content = ?  WHERE id = ?';
+        $query = 'UPDATE '.$this->table.' SET title = ?, content = ?  WHERE id_post = ?';
         return $db->query($query,$parameters);
     }
-
-    /**
-     * @param DatabaseManager $db
-     * @param $id
-     * @return mixed
-     */
-    public function deleteById(DatabaseManager $db, $id)
-    {
-        $commentManager = new CommentManager();
-        $commentManager->deleteCommentByPost($db,$id);
-        $query = 'DELETE FROM '.$this->table.' WHERE id = ?';
-        return $db->query($query, [$id]);
-    }
-
 }

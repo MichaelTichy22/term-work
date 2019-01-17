@@ -1,0 +1,19 @@
+<h2><?= $title ?></h2>
+<?php if(isset($_SESSION['user'])) : ?>
+    <?php if($_SESSION['user']['admin'] == 1) : ?>
+        <div>
+            <a href="post/delete/<?= $id ?>">Smazat</a>
+            <a href="post/edit/<?= $id ?>">Editovat</a>
+        </div>
+    <?php endif ?>
+<?php endif ?>
+<section>
+    <div>
+        <br>
+        <i><?= $createDate ?></i>
+        <hr>
+    </div>
+    <div>
+        <?= $content ?>
+    </div>
+</section>

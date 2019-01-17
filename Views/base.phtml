@@ -6,30 +6,32 @@
         <title><?= $head['title'] ?></title>
         <meta name="description" content="<?= $head['description'] ?>">
         <meta name="keywords" content="<?= $head['keywords'] ?>">
+        <link rel="stylesheet" href="../Css/style.css">
     </head>
 
     <body>
         <header>
             <h1>Semestrální práce</h1>
-        </header>
-        <nav>
-            <a href="/">Domů</a>
-            <?php if(isset($_SESSION['user'])) : ?>
-                <?php if($_SESSION['user']['role'] == 2) : ?>
-<!--                    <a href="/post/create">Vytvořit příspěvek</a>-->
-                    <a href="/user/list">Zaměstnanci</a>
-                    <a href="/position/list">Pracovní pozice</a>
-                    <a href="/workplace/list">Oddělení</a>
-                    <a href="/order/list">Zakázky</a>
-                    <a href="/task/list">Úkoly</a>
-                    <a href="/tag/list">Štítky</a>
-                <?php endif ?>
-                <a href="/user/logout">Odhlásit se</a>
-            <?php else: ?>
-                <a href="/user/login">Přihlásit se</a>
-                <a href="/user/register">Registrace</a>
-            <?php endif; ?>
-        </nav>
+
+            <nav>
+                <a href="/">Domů</a>
+                <?php if(isset($_SESSION['user'])) : ?>
+                    <?php if($_SESSION['user']['role'] == 2) : ?>
+                        <a href="/user/list">Zaměstnanci</a>
+                        <a href="/position/list">Pracovní pozice</a>
+                        <a href="/workplace/list">Oddělení</a>
+                        <a href="/order/list">Zakázky</a>
+                        <a href="/task/list">Úkoly</a>
+                        <a href="/post/create">Vytvořit příspěvek</a>
+                        <a href="/tag/list">Štítky</a>
+                    <?php endif ?>
+                    <a href="/user/logout">Odhlásit se</a>
+                <?php else: ?>
+                    <a href="/user/login">Přihlásit se</a>
+                    <a href="/user/register">Registrace</a>
+                <?php endif; ?>
+            </nav>
+            </header>
         <?php if(isset($_SESSION['user'])) : ?>
                 <div>
                     <p>
@@ -41,7 +43,7 @@
                 </div>
         <?php endif; ?>
         <hr>
-        <article>
+        <article class="main">
             <?php $controller->renderView() ?>
         </article>
         <hr>

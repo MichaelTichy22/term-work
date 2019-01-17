@@ -11,49 +11,12 @@ class PostController extends Controller
 
         $postManager = new PostManager();
         $postId = $parameters[0];
-        $post = $postManager->getPostWithCategory($this->db,$postId);
-        $commentHeader = 'Vytvořit komentář';
-
-        if (!$post) {
-            $this->redirect('error/er404');
-        }
-
-        $commentManager = new CommentManager();
-        $comments = $commentManager->getAllByPost($this->db,$postId,'create_date','ASC');
-        $commentIdEdit = null;
-
-        $commentForm = new CommentForm('commentForm','post','/comment/create/'.$postId);
-        $commentForm->build();
-        $commentForm->addElement('submit-create', '', 'input',[
-            'type' => 'submit',
-        ], 'Vytvořit');
+        $post = $postManager->getById($this->db,$postId);
 
         if(!empty($parameters[1])){
             if(isset($_SESSION['user'])){
                 if($parameters[1] !== 'edit-comment'){
                     $this->redirect('error/er404');
-                }else{
-                    $commentIdEdit = $parameters[2];
-                    if(!$commentManager->getById($this->db, $commentIdEdit)){
-                        $this->redirect('error/er404');
-                    }
-                }
-                if(!empty($commentIdEdit)){
-                    $comment = $commentManager->getById($this->db,$commentIdEdit);
-
-                    if ($comment['id_user'] !== $_SESSION['user']['id']){
-                        if($_SESSION['user']['role'] != 2) {
-                            $this->redirect('home/index');
-                        }
-                    }
-                    $commentForm = new CommentForm('commentForm','post','/comment/edit/'.$commentIdEdit.'/'.$postId);
-                    $commentForm->build();
-                    $commentForm->addElement('submit-edit', '', 'input',[
-                        'type' => 'submit',
-                    ], 'Editovat');
-
-                    $commentForm->setValues([$comment['subject'],$comment['content']]);
-                    $commentHeader = 'Editovat komentář';
                 }
             }
         }
@@ -66,13 +29,8 @@ class PostController extends Controller
 
         $this->data['id'] = $postId;
         $this->data['title'] = $post['title'];
-        $this->data['annotation'] = $post['annotation'];
         $this->data['content'] = $post['content'];
         $this->data['createDate'] = $post['create_date'];
-        $this->data['name'] = $post['name'];
-        $this->data['commentForm'] = $commentForm;
-        $this->data['comments'] = $comments;
-        $this->data['commentHeader'] = $commentHeader;
 
         $this->view = 'Post/show';
     }
@@ -99,15 +57,13 @@ class PostController extends Controller
 
             if($_SERVER['REQUEST_METHOD']=='POST'){
                 $messages = [];
-                $form->setValues([$_POST['title'],$_POST['category'],$_POST['annotation'],$_POST['content']]);
+                $form->setValues([$_POST['title'], $_POST['content']]);
                 if($form->isValid()){
                     $postManager->createPost(
                         $this->db,
                         [
                             htmlspecialchars($_POST['title']),
-                            nl2br(htmlspecialchars($_POST['annotation'])),
                             nl2br(htmlspecialchars($_POST['content'])),
-                            $_POST['category'],
                             $_SESSION['user']['id']
                         ]);
                     $messages = ['Příspěvek byl úspěšně vytvořen'];
@@ -149,13 +105,13 @@ class PostController extends Controller
         $this->checkParametersMaxCount($parameters, 1);
 
         if(isset($_SESSION['user'])){
-            if($_SESSION['user']['admin']==0){
+            if($_SESSION['user']['role']!=2){
                 $this->redirect('home/index');
             }
 
             $postManager = new PostManager();
             $postId = $parameters[0];
-            $post = $postManager->getPostWithCategory($this->db,$postId);
+            $post = $postManager->getById($this->db,$postId);
             if (!$post) {
                 $this->redirect('error/er404');
             }
@@ -167,39 +123,29 @@ class PostController extends Controller
             ], 'Editovat');
             $form->setValues([
                 $post['title'],
-                $post['id_category'],
-                str_replace('<br />',"",$post['annotation']),
                 str_replace('<br />',"",$post['content']),
             ]);
 
             $this->data['messages'] = [];
 
             if($_SERVER['REQUEST_METHOD']=='POST'){
-                $form->setValues([$_POST['title'],$_POST['category'],$_POST['annotation'],$_POST['content']]);
+                $form->setValues([$_POST['title'], $_POST['content']]);
                 $messages = [];
                 if($form->isValid()){
                     $postManager->editPost(
                         $this->db,
                         [
                             htmlspecialchars($_POST['title']),
-                            nl2br(htmlspecialchars($_POST['annotation'])),
                             nl2br(htmlspecialchars($_POST['content'])),
-                            $_POST['category'],
                             $postId,
                         ]);
                     $messages  = ['Příspěvek byl úspěšně editován'];
                 }else{
                     $messages  = $form->getMessages();
                 }
-                if (isset($_POST['ajax'])){
-                    foreach ($messages as $message){
-                        echo nl2br($message."\n");
-                    }
-                    exit;
-                }else{
-                    $_SESSION['message'] = $messages;
-                    $this->redirect('post/edit/'.$postId,true, 303);
-                }
+
+                $_SESSION['message'] = $messages;
+                $this->redirect('post/edit/'.$postId,true, 303);
             }
 
             $this->head = [

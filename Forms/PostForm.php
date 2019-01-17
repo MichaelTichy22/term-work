@@ -14,30 +14,11 @@ class PostForm extends Form
      */
     public function build(DatabaseManager $db = null)
     {
-        $categoryManager = new CategoryManager();
-        $categories = $categoryManager->getAll($db,'id','ASC');
-
         $this->addElement('title', 'Titulek', 'input',[
             'type' => 'text',
             'required' => '',
             'constraints' => [
                 'shorterThan255',
-                'notBlank',
-            ],
-        ]);
-        $this->addElement('category', 'Kategorie', 'select',[
-            'options'=>$this->getSelectOptions($categories, 'id', 'name'),
-            'required' => 'required',
-            'constraints' => [
-                'notNull',
-            ],
-        ]);
-        $this->addElement('annotation', 'Anotace', 'textArea',[
-            'rows' => '4',
-            'cols' => '80',
-            'required' => '',
-            'constraints' => [
-                'shorterThan65535',
                 'notBlank',
             ],
         ]);
