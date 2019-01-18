@@ -1,12 +1,21 @@
-<h2><?= $title ?></h2>
 <?php if(isset($_SESSION['user'])) : ?>
-    <?php if($_SESSION['user']['admin'] == 1) : ?>
+    <?php if($_SESSION['user']['role'] == 2) : ?>
         <div>
-            <a href="post/delete/<?= $id ?>">Smazat</a>
-            <a href="post/edit/<?= $id ?>">Editovat</a>
+            <a href="post/edit/<?= $id ?>"class="btn-grey">Editovat</a>
+            <a href="post/delete/<?= $id ?>" class="btn-red">Smazat</a>
         </div>
     <?php endif ?>
 <?php endif ?>
+<h2><?= $title ?></h2>
+<?php if (isset($tags)) : ?>
+    <div class="post-tags">
+        <?php foreach ($tags as $tag) : ?>
+        <span class="post-tag">
+            <?= $tag['name'] ?>
+        </span>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
 <section>
     <div>
         <br>

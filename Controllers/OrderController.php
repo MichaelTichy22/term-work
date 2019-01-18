@@ -47,6 +47,7 @@ class OrderController extends Controller
 
         $orderForm->addElement('submit-create', '', 'input',[
             'type' => 'submit',
+            'class' => 'btn-blue',
         ], 'Vytvořit');
 
         if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -100,6 +101,7 @@ class OrderController extends Controller
         $orderForm->build();
         $orderForm->addElement('submit-edit', '', 'input',[
             'type' => 'submit',
+            'class' => 'btn-blue',
         ], 'Upravit');
         $orderForm->setValues([
             $order['name'],

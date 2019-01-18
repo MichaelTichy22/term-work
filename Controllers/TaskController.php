@@ -47,6 +47,7 @@ class TaskController extends Controller
 
         $taskForm->addElement('submit-create', '', 'input',[
             'type' => 'submit',
+            'class' => 'btn-blue',
         ], 'Vytvořit');
 
         if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -102,6 +103,7 @@ class TaskController extends Controller
         $orderForm->build();
         $orderForm->addElement('submit-edit', '', 'input',[
             'type' => 'submit',
+            'class' => 'btn-blue',
         ], 'Upravit');
         $orderForm->setValues([
             $order['name'],

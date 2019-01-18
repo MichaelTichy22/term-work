@@ -42,7 +42,7 @@ abstract class EntityManager
      */
     public function getLastId(DatabaseManager $db)
     {
-        $query = 'SELECT MAX(id) AS max_id FROM ?';
+        $query = 'SELECT MAX(id_'.$this->table.') AS max_id FROM ?';
         return $db->queryOne($query, [$this->table]);
     }
 }

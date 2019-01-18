@@ -1,13 +1,13 @@
-<div>
+<div class="form-block">
     <h2><?= $header ?></h2>
-    <div id="tagCreateFormMessages">
-        <?php if(!empty($_SESSION['message'])): ?>
-            <ul>
-                <?php foreach ($_SESSION['message'] as $message) : ?>
-                    <li><?= $message ?></li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
-    </div>
+<!--    <div id="tagCreateFormMessages">-->
+<!--        --><?php //if(!empty($_SESSION['message'])): ?>
+<!--            <ul>-->
+<!--                --><?php //foreach ($_SESSION['message'] as $message) : ?>
+<!--                    <li>--><?//= $message ?><!--</li>-->
+<!--                --><?php //endforeach; ?>
+<!--            </ul>-->
+<!--        --><?php //endif; ?>
+<!--    </div>-->
     <?php $tagForm->renderForm(); ?>
 </div>

@@ -2,18 +2,19 @@
 <section>
     <?php if(isset($posts)) : ?>
         <?php foreach ($posts as $post) : ?>
-        <div>
-            <h3><a href="post/show/<?= $post['id_post'] ?>"><?= $post['title'] ?></a></h3>
-            <div><i><?= $post['create_date'] ?></i></div>
-            <?php if(isset($_SESSION['user'])) : ?>
-                <?php if($_SESSION['user']['role'] == 2) : ?>
-                    <div>
-                        <a href="post/delete/<?= $post['id_post'] ?>">Smazat</a>
-                        <a href="post/edit/<?= $post['id_post'] ?>">Editovat</a>
-                    </div>
+            <hr>
+            <div>
+                <h3><a href="post/show/<?= $post['id_post'] ?>"><?= $post['title'] ?></a></h3>
+                <div><i><?= $post['create_date'] ?></i></div>
+                <?php if(isset($_SESSION['user'])) : ?>
+                    <?php if($_SESSION['user']['role'] == 2) : ?>
+                        <div>
+                            <a href="post/edit/<?= $post['id_post'] ?>" class="btn-grey">Editovat</a>
+                            <a href="post/delete/<?= $post['id_post'] ?>" class="btn-red">Smazat</a>
+                        </div>
+                    <?php endif ?>
                 <?php endif ?>
-            <?php endif ?>
-        </div>
+            </div>
         <?php endforeach; ?>
     <?php endif ?>
 </section>

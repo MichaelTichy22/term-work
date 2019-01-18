@@ -1,13 +1,4 @@
-<h2><?= $header ?></h2>
-<section>
-    <div id=postFormMessages>
-        <?php if(!empty($_SESSION['message'])): ?>
-            <ul>
-                <?php foreach ($_SESSION['message'] as $message) : ?>
-                    <li><?= $message ?></li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
-    </div>
+<div class="form-block">
+    <h2><?= $header ?></h2>
     <?php $form->renderForm() ?>
-</section>
+</div>

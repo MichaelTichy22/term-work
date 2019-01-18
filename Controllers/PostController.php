@@ -10,6 +10,8 @@ class PostController extends Controller
         $this->checkParametersMaxCount($parameters, 3);
 
         $postManager = new PostManager();
+        $tagManager = new TagManager();
+
         $postId = $parameters[0];
         $post = $postManager->getById($this->db,$postId);
 
@@ -31,6 +33,7 @@ class PostController extends Controller
         $this->data['title'] = $post['title'];
         $this->data['content'] = $post['content'];
         $this->data['createDate'] = $post['create_date'];
+        $this->data['tags'] = $tagManager->getAllByPostId($this->db, $postId);
 
         $this->view = 'Post/show';
     }
@@ -51,21 +54,25 @@ class PostController extends Controller
             $form->build($this->db);
             $form->addElement('submit-create', '', 'input',[
                 'type' => 'submit',
+                'class' => 'btn-blue',
             ], 'Vytvořit');
 
             $this->data['messages'] = [];
 
             if($_SERVER['REQUEST_METHOD']=='POST'){
                 $messages = [];
-                $form->setValues([$_POST['title'], $_POST['content']]);
+                $form->setValues([$_POST['title'], $_POST['content'], 'checkboxes' => $_POST['tags']]);
                 if($form->isValid()){
                     $postManager->createPost(
                         $this->db,
                         [
                             htmlspecialchars($_POST['title']),
                             nl2br(htmlspecialchars($_POST['content'])),
-                            $_SESSION['user']['id']
-                        ]);
+                            $_SESSION['user']['id_user'],
+                        ],
+                        $_POST['tags']
+                    );
+
                     $messages = ['Příspěvek byl úspěšně vytvořen'];
                 }else{
                     $messages = $form->getMessages();
@@ -104,48 +111,63 @@ class PostController extends Controller
     {
         $this->checkParametersMaxCount($parameters, 1);
 
-        if(isset($_SESSION['user'])){
-            if($_SESSION['user']['role']!=2){
+        if(isset($_SESSION['user'])) {
+            if ($_SESSION['user']['role'] != 2) {
                 $this->redirect('home/index');
             }
 
             $postManager = new PostManager();
             $postId = $parameters[0];
-            $post = $postManager->getById($this->db,$postId);
+            $post = $postManager->getById($this->db, $postId);
             if (!$post) {
                 $this->redirect('error/er404');
             }
 
-            $form = new PostForm('postForm','post','/post/edit/'.$postId);
+            $form = new PostForm('postForm', 'post', '/post/edit/' . $postId);
             $form->build($this->db);
-            $form->addElement('submit-edit', '', 'input',[
+            $form->addElement('submit-edit', '', 'input', [
                 'type' => 'submit',
+                'class' => 'btn-blue',
             ], 'Editovat');
+
+            $tagManager = new tagManager();
+            $tags = $tagManager->getAllByPostId($this->db, $postId);
+            $tagIds = [];
+
+            foreach ($tags as $tag) {
+                $tagIds[] = $tag['id_tag'];
+            }
+
             $form->setValues([
                 $post['title'],
-                str_replace('<br />',"",$post['content']),
+                str_replace('<br />', "", $post['content']),
+                'checkboxes' => $tagIds,
             ]);
 
             $this->data['messages'] = [];
 
-            if($_SERVER['REQUEST_METHOD']=='POST'){
-                $form->setValues([$_POST['title'], $_POST['content']]);
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+                $form->setValues([$_POST['title'], $_POST['content'], 'checkboxes' => $_POST['tags']]);
                 $messages = [];
-                if($form->isValid()){
+
+                if ($form->isValid()) {
                     $postManager->editPost(
                         $this->db,
                         [
                             htmlspecialchars($_POST['title']),
                             nl2br(htmlspecialchars($_POST['content'])),
                             $postId,
-                        ]);
-                    $messages  = ['Příspěvek byl úspěšně editován'];
-                }else{
-                    $messages  = $form->getMessages();
+                        ],
+                        $_POST['tags']
+                    );
+                    $messages = ['Příspěvek byl úspěšně editován'];
+                } else {
+                    $messages = $form->getMessages();
                 }
 
                 $_SESSION['message'] = $messages;
-                $this->redirect('post/edit/'.$postId,true, 303);
+                $this->redirect('post/edit/' . $postId, true, 303);
             }
 
             $this->head = [
@@ -159,7 +181,7 @@ class PostController extends Controller
 
             $this->view = 'Post/form';
 
-        }else{
+        }else {
             $this->redirect('home/index');
         }
     }

@@ -46,6 +46,7 @@ class PositionController extends Controller
 
         $positionForm->addElement('submit-create', '', 'input',[
             'type' => 'submit',
+            'class' => 'btn-blue',
         ], 'Vytvořit');
 
         if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -98,6 +99,7 @@ class PositionController extends Controller
         $positionForm->build();
         $positionForm->addElement('submit-edit', '', 'input',[
             'type' => 'submit',
+            'class' => 'btn-blue',
         ], 'Upravit');
         $positionForm->setValues([
             $position['name'],
@@ -114,7 +116,8 @@ class PositionController extends Controller
                     [
                         htmlspecialchars($_POST['name']),
                         $positionId,
-                    ]);
+                    ]
+                );
                 $messages  = ['Pozice byla úspěšně editována'];
             }else{
                 $messages  = $positionForm->getMessages();

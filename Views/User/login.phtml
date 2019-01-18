@@ -1,5 +1,6 @@
-<h2>Login</h2>
-<section>
+<div class="form-block">
+    <h2>Login</h2>
+
     <div id="loginFormMessages">
         <?php if(!empty($_SESSION['message'])): ?>
             <ul>
@@ -11,4 +12,6 @@
     </div>
     <?php $form->renderForm() ?>
     <p><a href="/user/register">Zaregistrovat</a></p>
-</section>
+</div>
+
+

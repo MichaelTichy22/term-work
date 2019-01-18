@@ -36,4 +36,10 @@ class TagManager extends EntityManager
         $query = 'UPDATE '.$this->table.' SET name = ? WHERE id_'.$this->table.' = ?';
         return $db->query($query,$parameters);
     }
+
+    function getAllByPostId(DatabaseManager $db, $id) {
+        $query = 'SELECT t.id_tag, t.name FROM '.$this->table.' t INNER JOIN post_tag pt ON t.id_tag = pt.id_tag WHERE pt.id_post = ?;';
+        return $db->queryAll($query, [$id]);
+    }
+
 }

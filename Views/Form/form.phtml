@@ -1,4 +1,13 @@
- <form id="<?= $this->getName() ?>" method="<?= $this->getMethod() ?>" action="<?= $this->getAction() ?>">
+<?php if(!empty($_SESSION['message'])): ?>
+    <div class="form-messages">
+        <ul>
+            <?php foreach ($_SESSION['message'] as $message) : ?>
+                <li><?= $message ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
+<form id="<?= $this->getName() ?>" method="<?= $this->getMethod() ?>" action="<?= $this->getAction() ?>">
         <?php foreach ($this->getElements() as $element) : ?>
             <div id="block-<?= $element['name']?>">
                 <?php if($element['label'] !== '') : ?>
@@ -9,7 +18,15 @@
                         <input type="<?= $element['options']['type'] ?>"
                                name="<?= $element['name'] ?>"
                                id="<?= $element['name'] ?>"
-                               value="<?= $element['value'] ?>">
+                               value="<?= $element['value'] ?>"
+                               class="<?= $element['options']['class'] ?>"
+                            <?php if($element['options']['type'] === 'checkbox') :?>
+                                <?php if(isset($element['options']['checked'])) : ?>
+                                    <?php if($element['options']['checked'] == true) : ?>
+                                        checked
+                                    <?php endif ?>
+                                <?php endif ?>
+                            <?php endif ?>>
                         <?php break; ?>
                     <?php case 'textArea': ?>
                         <textarea
@@ -17,12 +34,14 @@
                                 id="<?= $element['name'] ?>"
                                 cols="<?= $element['options']['cols'] ?>"
                                 rows="<?= $element['options']['rows'] ?>"
+                                class="<?= $element['options']['class'] ?>"
                         ><?= $element['value'] ?></textarea>
                         <?php break; ?>
                     <?php case 'select': ?>
                         <select
                                 name="<?= $element['name'] ?>"
-                                id="<?= $element['name'] ?>">
+                                id="<?= $element['name'] ?>"
+                                class="<?= $element['options']['class'] ?>">
                             <?php foreach ($element['options']['options'] as $option) : ?>
                                 <option value="<?= $option['value'] ?>" <?= $option['selected'] ?>><?= $option['name'] ?></option>
                             <?php endforeach; ?>

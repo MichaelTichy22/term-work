@@ -92,15 +92,25 @@ abstract class Form
         foreach($this->elements as $element){
 
             if ($element['tag'] === 'input'){
-                if ($element['options']['type'] === 'submit'){
+                if ($element['options']['type'] === 'submit') {
                     $newElements[] = $element;
                     continue;
+                }
+
+                if ($element['options']['type'] === 'checkbox') {
+                    if (isset($values['checkboxes'])) {
+                        foreach ($values['checkboxes'] as $checkVal) {
+                            if ($element['value'] === $checkVal) {
+                                $element['options']['checked'] = true;
+                            }
+                        }
+                    }
                 }
             }
 
             if($element['tag'] === 'select'){
                 $newOptions = [];
-                foreach ($element['options']['options'] as $option){
+                foreach ($element['options']['options'] as $option) {
                     if($option['value'] === $values[$i]){
                         $option['selected'] = 'selected';
                     }
@@ -109,7 +119,10 @@ abstract class Form
                 $element['options']['options'] = $newOptions;
             }
 
-            $element['value'] = $values[$i];
+            if ($element['options']['type'] !== 'checkbox') {
+                $element['value'] = $values[$i];
+            }
+
 
             $newElements[] = $element;
             $i++;

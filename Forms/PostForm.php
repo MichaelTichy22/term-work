@@ -14,6 +14,9 @@ class PostForm extends Form
      */
     public function build(DatabaseManager $db = null)
     {
+        $tagManager = new TagManager();
+        $tags = $tagManager->getAll($db, 'name', 'ASC');
+
         $this->addElement('title', 'Titulek', 'input',[
             'type' => 'text',
             'required' => '',
@@ -31,7 +34,13 @@ class PostForm extends Form
                 'notBlank',
             ],
         ]);
-
+        foreach ($tags as $tag){
+            $this->addElement('tags[]', $tag['name'], 'input', [
+                'type' => 'checkbox',
+                'required' => '',
+                'checked' => false,
+            ], $tag['id_tag']);
+        }
     }
 
 }

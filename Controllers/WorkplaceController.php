@@ -46,6 +46,7 @@ class WorkplaceController extends Controller
 
         $workplaceForm->addElement('submit-create', '', 'input',[
             'type' => 'submit',
+            'class' => 'btn-blue',
         ], 'Vytvořit');
 
         if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -98,6 +99,7 @@ class WorkplaceController extends Controller
         $workplaceForm->build();
         $workplaceForm->addElement('submit-edit', '', 'input',[
             'type' => 'submit',
+            'class' => 'btn-blue',
         ], 'Upravit');
         $workplaceForm->setValues([
             $workplace['name'],
