@@ -20,6 +20,14 @@ class TaskManager extends EntityManager
      */
     public function createTask(DatabaseManager $db, $parameters)
     {
+        $userManager = new UserManager();
+        $orderManager = new OrderManager();
+        if ($orderManager->getById($db, $parameters[2]) == null){
+            $parameters[2] = null;
+        }
+        if ($userManager->getById($db, $parameters[3]) == null){
+            $parameters[3] = null;
+        }
         $query = 'INSERT INTO '.$this->table.' (name, description, id_order, id_user) VALUES (?, ?, ?, ?)';
         return $db->query($query,$parameters);
     }

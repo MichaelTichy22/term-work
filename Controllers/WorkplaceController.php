@@ -16,6 +16,10 @@ class WorkplaceController extends Controller
                 $this->redirect('home/index/');
             }
         }
+
+        $importForm = new ImportJsonForm('import-json', 'post', 'file/import/workplace', 'multipart/form-data');
+        $importForm->build();
+
         $workplaceManager = new WorkplaceManager();
         $workplaces = $workplaceManager->getAll($this->db, 'id_workplace', 'ASC');
         $workplaceTable = new WorkplaceTable($workplaces, 'workplace');
@@ -28,6 +32,7 @@ class WorkplaceController extends Controller
         ];
 
         $this->data['workplaceTable'] = $workplaceTable;
+        $this->data['importForm'] = $importForm;
 
         $this->view = '/Workplace/list';
     }

@@ -11,14 +11,16 @@ abstract class Form
     protected $name;
     protected $method;
     protected $action;
+    protected $enctype;
     protected $elements;
     protected $messages;
 
-    public function __construct($name, $method, $action)
+    public function __construct($name, $method, $action, $enctype = null)
     {
         $this->name = $name;
         $this->method = $method;
         $this->action = $action;
+        $this->enctype = $enctype;
     }
 
     abstract function build(DatabaseManager $db = null);
@@ -174,6 +176,14 @@ abstract class Form
     public function getMessages()
     {
         return $this->messages;
+    }
+
+    /**
+     * @return null
+     */
+    public function getEnctype()
+    {
+        return $this->enctype;
     }
 
 

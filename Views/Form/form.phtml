@@ -7,7 +7,7 @@
         </ul>
     </div>
 <?php endif; ?>
-<form id="<?= $this->getName() ?>" method="<?= $this->getMethod() ?>" action="<?= $this->getAction() ?>">
+<form id="<?= $this->getName() ?>" method="<?= $this->getMethod() ?>" action="<?= $this->getAction() ?>" enctype="<?= $this->getEnctype() ?>">
         <?php foreach ($this->getElements() as $element) : ?>
             <div id="block-<?= $element['name']?>">
                 <?php if($element['label'] !== '') : ?>

@@ -16,6 +16,9 @@ class TaskController extends Controller
                 $this->redirect('home/index/');
             }
         }
+        $importForm = new ImportJsonForm('import-json', 'post', 'file/import/task', 'multipart/form-data');
+        $importForm->build();
+
         $taskManager = new TaskManager();
         $task = $taskManager->getAll($this->db, 'id_task', 'ASC');
         $taskTable = new TaskTable($task, 'task');
@@ -28,6 +31,7 @@ class TaskController extends Controller
         ];
 
         $this->data['taskTable'] = $taskTable;
+        $this->data['importForm'] = $importForm;
 
         $this->view = '/Task/list';
     }

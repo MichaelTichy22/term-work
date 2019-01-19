@@ -16,6 +16,10 @@ class OrderController extends Controller
                 $this->redirect('home/index/');
             }
         }
+
+        $importForm = new ImportJsonForm('import-json', 'post', 'file/import/order', 'multipart/form-data');
+        $importForm->build();
+
         $orderManager = new OrderManager();
         $order = $orderManager->getAll($this->db, 'id_order', 'ASC');
         $orderTable = new OrderTable($order, 'order');
@@ -28,6 +32,7 @@ class OrderController extends Controller
         ];
 
         $this->data['orderTable'] = $orderTable;
+        $this->data['importForm'] = $importForm;
 
         $this->view = '/Order/list';
     }

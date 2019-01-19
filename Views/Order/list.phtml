@@ -2,6 +2,8 @@
     <h2>Zakázky</h2>
     <div>
         <a href="/order/create" class="btn-blue"><strong>[+]</strong>  Vytvořit novou</a>
+        <a href="/file/download/order" class="btn-blue">Exportovat JSON</a>
+        <?php $importForm->renderForm(); ?>
     </div>
     <?php $orderTable->renderTable(); ?>
 </div>

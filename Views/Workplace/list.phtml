@@ -2,6 +2,8 @@
     <h2>Oddělení</h2>
     <div>
         <a href="/workplace/create" class="btn-blue"><strong>[+]</strong> Vytvořit nové</a>
+        <a href="/file/download/workplace" class="btn-blue">Exportovat JSON</a>
+        <?php $importForm->renderForm(); ?>
     </div>
     <?php $workplaceTable->renderTable(); ?>
 </div>

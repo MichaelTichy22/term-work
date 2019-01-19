@@ -171,3 +171,15 @@ th {
     padding: 10px;
 }
 
+#import-json {
+    display: inline;
+}
+
+#import-json br {
+    display: none;
+}
+
+#import-json div {
+    display: inline;
+}
+
