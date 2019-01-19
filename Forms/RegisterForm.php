@@ -57,6 +57,7 @@ class RegisterForm extends Form
         );
         $this->addElement('register', '', 'input',[
             'type' => 'submit',
+            'class' => 'btn-blue',
         ], 'Zaregistrovat');
     }
 }

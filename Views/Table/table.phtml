@@ -15,14 +15,20 @@
         <tr>
             <?php foreach($this->getColumns() as $key => $value) : ?>
                 <td>
-                    <?= $row[$key] ?>
+                    <?php if($key == 'firstname') : ?>
+                        <?= $row[$key].' '.$row['surname'] ?>
+                    <?php else :?>
+                        <?= $row[$key] ?>
+                    <?php endif; ?>
                 </td>
             <? endforeach; ?>
             <?php if(isset($_SESSION['user'])) : ?>
                 <?php if($_SESSION['user']['role'] == 2) : ?>
                     <td>
                         <a href="/<?= $this->getName() ?>/edit/<?= $row['id_'.$this->getName()]?>" class="btn-grey"> Upravit</a>
-                        <a href="/<?= $this->getName() ?>/delete/<?= $row['id_'.$this->getName()]?>" class="btn-red">Smazat</a>
+                        <?php if ($_SESSION['user']['id_user'] != $row['id_'.$this->getName() && $this->getName() !== 'user']) : ?>
+                            <a href="/<?= $this->getName() ?>/delete/<?= $row['id_'.$this->getName()]?>" class="btn-red">Smazat</a>
+                        <?php endif; ?>
                     </td>
                 <?php endif ?>
             <?php endif ?>

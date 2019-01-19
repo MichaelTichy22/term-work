@@ -50,9 +50,15 @@ abstract class Form
      * @param $keyName
      * @return array
      */
-    protected function getSelectOptions($entities, $keyValue, $keyName)
+    protected function getSelectOptions($entities, $keyValue, $keyName, $nullValue = false)
     {
         $options = [];
+
+        if ($nullValue) {
+            $option = ['value'=> null, 'name' => '--nevybráno--', 'selected'=>''];
+            $options[]=$option;
+        }
+
         foreach ($entities as $entity){
             $option = ['value'=> '', 'name' => '', 'selected'=>''];
             $option['value'] = $entity[$keyValue];

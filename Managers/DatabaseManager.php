@@ -85,7 +85,15 @@ class DatabaseManager
     public function query($query, $parameters = [])
     {
         $result = $this->connection->prepare($query);
+
+//        foreach ($parameters as $parameter) {
+//            if ($parameter == null) {
+//                $parameter = 'NULL';
+//            }
+//        }
+
         $result->execute($parameters);
+
         return $result->rowCount();
     }
 

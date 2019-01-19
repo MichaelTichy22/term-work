@@ -132,4 +132,17 @@ class Validator
         }
         return true;
     }
+
+    /**
+     * @param $element
+     * @param $name
+     * @return bool
+     */
+    private function justNumbers($element, $name){
+        if (!preg_match("/^[0-9]*$/",$element)){
+            $this->messages[] = "Pole \"$name\" může obsahovat pouze číslice!";
+            return false;
+        }
+        return true;
+    }
 }

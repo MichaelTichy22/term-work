@@ -92,56 +92,60 @@ class TaskController extends Controller
             }
         }
 
-        $orderManager = new OrderManager();
-        $orderId = $parameters[0];
-        $order = $orderManager->getById($this->db,$orderId);
-        if (!$order) {
+        $taskManager = new TaskManager();
+        $taskId = $parameters[0];
+        $task = $taskManager->getById($this->db,$taskId);
+        if (!$task) {
             $this->redirect('error/er404');
         }
 
-        $orderForm = new OrderForm('order-form','post','/order/edit/'.$orderId);
-        $orderForm->build();
-        $orderForm->addElement('submit-edit', '', 'input',[
+        $taskForm = new TaskForm('order-form','post','/task/edit/'.$taskId);
+        $taskForm->build($this->db);
+        $taskForm->addElement('submit-edit', '', 'input',[
             'type' => 'submit',
             'class' => 'btn-blue',
         ], 'Upravit');
-        $orderForm->setValues([
-            $order['name'],
-            $order['description'],
+        $taskForm->setValues([
+            $task['name'],
+            $task['description'],
+            $task['id_order'],
+            $task['id_user']
         ]);
 
         $this->data['messages'] = [];
 
         if($_SERVER['REQUEST_METHOD']=='POST'){
-            $orderForm->setValues([$_POST['name'], $_POST['description']]);
+            $taskForm->setValues([$_POST['name'], $_POST['description'], $_POST['orders'], $_POST['users']]);
             $messages = [];
-            if($orderForm->isValid()){
-                $orderManager->editOrder(
+            if($taskForm->isValid()){
+                $taskManager->editTask(
                     $this->db,
                     [
                         htmlspecialchars($_POST['name']),
                         htmlspecialchars($_POST['description']),
-                        $orderId,
+                        $_POST['orders'],
+                        $_POST['users'],
+                        $taskId,
                     ]);
-                $messages  = ['Zakázka byla úspěšně upravena'];
+                $messages  = ['Úkol byl úspěšně upraven'];
             }else{
-                $messages  = $orderForm->getMessages();
+                $messages  = $taskForm->getMessages();
             }
 
             $_SESSION['message'] = $messages;
-            $this->redirect('order/edit/'.$orderId,true, 303);
+            $this->redirect('task/edit/'.$taskId,true, 303);
         }
 
         $this->head = [
-            'title' => 'Upravit zakázku',
-            'keywords' => 'zakázka, vytvoř',
-            'description' => 'Formulář pro úpravu zakázky',
+            'title' => 'Upravit úkol',
+            'keywords' => 'úkol, editovat',
+            'description' => 'Formulář pro úpravu úkolu',
         ];
 
-        $this->data['orderForm'] = $orderForm;
-        $this->data['header'] = 'Upravit zakázku';
+        $this->data['taskForm'] = $taskForm;
+        $this->data['header'] = 'Upravit úkol';
 
-        $this->view = 'Order/form';
+        $this->view = 'Task/form';
     }
 
     /**

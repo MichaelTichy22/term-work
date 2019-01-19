@@ -20,7 +20,7 @@ abstract class Table
 
     abstract function build(DatabaseManager $db = null);
 
-    public function addColumn($databaseColumnName, $th)
+    public function addColumn($databaseColumnName, $th, $join = '')
     {
         $this->columns[$databaseColumnName] = ['header'=>$th];
     }

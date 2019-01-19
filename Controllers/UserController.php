@@ -165,6 +165,115 @@ class UserController extends Controller
         $this->view = "User/list";
     }
 
+    public function editAction($parameters) {
+        $this->checkParametersMaxCount($parameters, 1);
+
+        if(isset($_SESSION['user'])) {
+            if ($_SESSION['user']['role'] != 2) {
+                $this->redirect('home/index');
+            }
+
+            $userManager = new UserManager();
+            $userId = $parameters[0];
+            $user = $userManager->getById($this->db, $userId);
+            if (!$user) {
+                $this->redirect('error/er404');
+            }
+
+            $form = new UserForm('userForm', 'post', '/user/edit/' . $userId);
+            $form->build($this->db);
+            $form->addElement('submit-edit', '', 'input', [
+                'type' => 'submit',
+                'class' => 'btn-blue',
+            ], 'Editovat');
+
+            $form->setValues([
+                $user['email'],
+                $user['name'],
+                $user['surname'],
+                $user['wage'],
+                $user['id_position'],
+                $user['id_workplace'],
+            ]);
+
+            $this->data['messages'] = [];
+
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+                $form->setValues([
+                    $_POST['email'],
+                    $_POST['name'],
+                    $_POST['surname'],
+                    $_POST['wage'],
+                    $_POST['id_position'],
+                    $_POST['id_workplace'],
+                ]);
+                $messages = [];
+
+                if ($form->isValid()) {
+                    $userManager->editUser(
+                        $this->db,
+                        [
+                            $_POST['email'],
+                            $_POST['name'],
+                            $_POST['surname'],
+                            $_POST['wage'],
+                            $_POST['position'],
+                            $_POST['workplace'],
+                            $user['id_user'],
+                        ]
+                    );
+                    $messages = ['Uživatel byl úspěšně editován'];
+                } else {
+                    $messages = $form->getMessages();
+                }
+
+                $_SESSION['message'] = $messages;
+                $this->redirect('user/edit/' . $userId, true, 303);
+            }
+
+            $this->head = [
+                'title' => 'Editovat uživatele',
+                'keywords' => 'uživatel, editovat, formulář',
+                'description' => 'Formulář pro editaci uživatele ',
+            ];
+
+            $this->data['form'] = $form;
+            $this->data['header'] = 'Editovat uživatele';
+
+            $this->view = 'User/form';
+
+        }else {
+            $this->redirect('home/index');
+        }
+    }
+
+    public function deleteAction($parameters)
+    {
+        if(isset($_SESSION['user'])){
+            if($_SESSION['user']['role']!=2){
+                $this->redirect('home/index');
+            }
+
+            if ($_SESSION['user']['id_user'] == $parameters[0]) {
+                $this->redirect('error/er404');
+            }
+
+            $this->checkParametersMaxCount($parameters, 1);
+
+            if (empty($parameters[0])){
+                $this->redirect('error/er404');
+            }
+
+            $userManager = new UserManager();
+
+            $userManager->deleteById($this->db, $parameters[0]);
+
+            $this->redirect('user/list');
+        }else{
+            $this->redirect('home/index');
+        }
+    }
 
     /**
      * @param $url

@@ -7,15 +7,6 @@
     <?php endif ?>
 <?php endif ?>
 <h2><?= $title ?></h2>
-<?php if (isset($tags)) : ?>
-    <div class="post-tags">
-        <?php foreach ($tags as $tag) : ?>
-        <span class="post-tag">
-            <?= $tag['name'] ?>
-        </span>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
 <section>
     <div>
         <br>
@@ -25,4 +16,14 @@
     <div>
         <?= $content ?>
     </div>
+    <?php if (isset($tags)) : ?>
+        <div class="post-tags">
+            <h3>Štítky</h3>
+            <?php foreach ($tags as $tag) : ?>
+                <span class="post-tag">
+            <?= $tag['name'] ?>
+        </span>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 </section>

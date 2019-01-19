@@ -43,7 +43,7 @@ header nav a:hover{
 
 .form-block {
     margin: auto;
-    width: 50%;
+    max-width: 900px;
     padding: 15px;
     border: 2px solid #eeeeee;
     border-radius: 5px;
@@ -55,7 +55,7 @@ h1 a,h2 a,h3 a {
     color: black;
 }
 
-input[type=text] {
+input[type=text],[type=password] {
     border: 2px solid #e1e1e1;
     border-radius: 8px;
     background-color: white;

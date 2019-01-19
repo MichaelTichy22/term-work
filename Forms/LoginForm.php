@@ -26,6 +26,7 @@ class LoginForm extends Form
         ]);
         $this->addElement('submit', '', 'input',[
             'type' => 'submit',
+            'class' => 'btn-blue',
         ], 'Přihlásit se');
     }
 }
