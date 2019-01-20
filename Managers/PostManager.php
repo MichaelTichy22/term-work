@@ -51,4 +51,12 @@ class PostManager extends EntityManager
 
         return $result;
     }
+
+    public function deleteById(DatabaseManager $db, $id)
+    {
+        $tagPostManager = new PostTagManager();
+        $tagPostManager->deleteByPostId($db, [$id]);
+
+        return parent::deleteById($db, $id);
+    }
 }

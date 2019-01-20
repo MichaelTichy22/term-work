@@ -4,8 +4,8 @@
             <th><?= $column['header'] ?></th>
         <?php endforeach; ?>
         <?php if(isset($_SESSION['user'])) : ?>
-            <?php if($_SESSION['user']['role'] == 2) : ?>
-                <th>
+            <?php if($_SESSION['user']['role'] == 2 || $_SERVER['REQUEST_URI'] === '/task/my-list') : ?>
+                <th class="table-action">
                     Akce
                 </th>
             <?php endif ?>
@@ -15,20 +15,44 @@
         <tr>
             <?php foreach($this->getColumns() as $key => $value) : ?>
                 <td>
+                    <strong class="th-responsive">
+                        <?= $this->getColumns()[$key]['header'] ?>:
+                    </strong>
                     <?php if($key == 'firstname') : ?>
                         <?= $row[$key].' '.$row['surname'] ?>
                     <?php else :?>
-                        <?= $row[$key] ?>
+                        <?php if($key == 'state') : ?>
+                            <?php if($row[$key] === '0') : ?>
+                                Nepřijat
+                            <?php elseif($row[$key] === '1') : ?>
+                                Přijat
+                            <?php else : ?>
+                                Dokončen
+                            <?php endif; ?>
+                        <?php else : ?>
+                            <?= $row[$key] ?>
+                        <?php endif; ?>
+
                     <?php endif; ?>
                 </td>
             <? endforeach; ?>
             <?php if(isset($_SESSION['user'])) : ?>
-                <?php if($_SESSION['user']['role'] == 2) : ?>
-                    <td>
-                        <a href="/<?= $this->getName() ?>/edit/<?= $row['id_'.$this->getName()]?>" class="btn-grey"> Upravit</a>
-                        <?php if ($_SESSION['user']['id_user'] != $row['id_'.$this->getName() && $this->getName() !== 'user']) : ?>
-                            <a href="/<?= $this->getName() ?>/delete/<?= $row['id_'.$this->getName()]?>" class="btn-red">Smazat</a>
+                <?php if($_SESSION['user']['role'] == 2 || $_SERVER['REQUEST_URI'] === '/task/my-list') : ?>
+                    <td class="table-action">
+                        <?php if($_SERVER['REQUEST_URI'] === '/task/my-list'): ?>
+                            <?php if($row['state'] === '0') : ?>
+                                <a href="/<?= $this->getName() ?>/change-state/<?= $row['id_'.$this->getName()]?>/1" class="btn-green">Přijmout</a>
+                            <?php elseif ($row['state'] === '1') : ?>
+                                <a href="/<?= $this->getName() ?>/change-state/<?= $row['id_'.$this->getName()]?>/0" class="btn-grey">Odmítnout</a>
+                            <?php endif; ?>
+                            <a href="/<?= $this->getName() ?>/detail/<?= $row['id_'.$this->getName()]?>" class="btn-blue">Detail</a>
+                        <?php else :?>
+                            <a href="/<?= $this->getName() ?>/edit/<?= $row['id_'.$this->getName()]?>" class="btn-grey"> Upravit</a>
+                            <?php if ($_SESSION['user']['id_user'] != $row['id_'.$this->getName() && $this->getName() !== 'user']) : ?>
+                                <a href="/<?= $this->getName() ?>/delete/<?= $row['id_'.$this->getName()]?>" class="btn-red">Smazat</a>
+                            <?php endif; ?>
                         <?php endif; ?>
+
                     </td>
                 <?php endif ?>
             <?php endif ?>

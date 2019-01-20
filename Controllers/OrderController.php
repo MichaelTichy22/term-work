@@ -11,10 +11,12 @@ class OrderController extends Controller
     public function listAction($parameters){
         $this->checkParametersMaxCount($parameters, 0);
 
-        if (!$_SESSION['user']){
-            if ($_SESSION['role'] < 1){
+        if ($_SESSION['user']){
+            if ($_SESSION['user']['role'] != 2){
                 $this->redirect('home/index/');
             }
+        } else {
+            $this->redirect('user/login/');
         }
 
         $importForm = new ImportJsonForm('import-json', 'post', 'file/import/order', 'multipart/form-data');
@@ -40,10 +42,12 @@ class OrderController extends Controller
     public function createAction($parameters){
         $this->checkParametersMaxCount($parameters, 0);
 
-        if (!$_SESSION['user']){
-            if ($_SESSION['role'] != 2){
+        if ($_SESSION['user']){
+            if ($_SESSION['user']['role'] != 2){
                 $this->redirect('home/index/');
             }
+        } else {
+            $this->redirect('user/login/');
         }
 
         $orderManager = new OrderManager();
@@ -89,10 +93,12 @@ class OrderController extends Controller
     public function editAction($parameters){
         $this->checkParametersMaxCount($parameters, 1);
 
-        if (!$_SESSION['user']){
-            if ($_SESSION['role'] != 2){
+        if ($_SESSION['user']){
+            if ($_SESSION['user']['role'] != 2){
                 $this->redirect('home/index/');
             }
+        } else {
+            $this->redirect('user/login/');
         }
 
         $orderManager = new OrderManager();

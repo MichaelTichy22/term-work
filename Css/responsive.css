@@ -1,0 +1,68 @@
+@media only print
+{
+    footer, header, .table-action, .btn-blue, .btn-grey, .btn-red, form{
+        display:none;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    header {
+        height: auto;
+    }
+    header nav{
+        height: auto;
+        width: 100%;
+    }
+
+    header nav a {
+        display: none;
+        width: 100%;
+        height: auto;
+        text-align: left;
+        background-color: #004488;
+        border-bottom: 1px solid white;
+    }
+
+    header nav a:hover {
+        display: block;
+        width: 100%;
+        text-align: left;
+        background-color: white;
+        color: black;
+    }
+
+    table td{
+        display: block;
+    }
+
+    table th {
+        display: none;
+    }
+
+    .th-responsive {
+        display: inline;
+    }
+
+    .menu-icon {
+        padding: 8px;
+        background-color: #006fff;
+        display: block;
+    }
+
+    .menu-icon:hover {
+        padding: 8px;
+        display: block;
+    }
+}
+@media screen and (max-width: 1300px) {
+    header div.login-info {
+        display: none;
+    }
+
+    header nav a.icon {
+        float: right;
+        display: block;
+    }
+}
+
+

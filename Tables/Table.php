@@ -22,7 +22,7 @@ abstract class Table
 
     public function addColumn($databaseColumnName, $th, $join = '')
     {
-        $this->columns[$databaseColumnName] = ['header'=>$th];
+        $this->columns[$databaseColumnName] = ['header' => $th,];
     }
 
     public function renderTable()

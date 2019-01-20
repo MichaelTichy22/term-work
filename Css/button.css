@@ -1,0 +1,59 @@
+.btn-blue {
+    display: inline-block;
+    background-color: #006fff;
+    color: white;
+    border: 0 none;
+    cursor:pointer;
+    padding: 12px 24px;
+    font-size: 16px;
+    margin: 8px 2px;
+    text-decoration: none;
+}
+.btn-blue:hover, .btn-red:hover, .btn-grey:hover, .btn-green:hover {
+    display: inline-block;
+    background-color: #e1e1e1;
+    color: black;
+    border: 0 none;
+    cursor:pointer;
+    padding: 12px 24px;
+    font-size: 16px;
+    margin: 8px 2px;
+    text-decoration: none;
+    transition: background-color 0.1s;
+}
+
+.btn-red {
+    display: inline-block;
+    background-color: #fe0000;
+    color: white;
+    border: 0 none;
+    cursor:pointer;
+    padding: 12px 24px;
+    font-size: 16px;
+    margin: 8px 2px;
+    text-decoration: none;
+}
+
+.btn-grey {
+    display: inline-block;
+    background-color: #989898;
+    color: white;
+    border: 0 none;
+    cursor:pointer;
+    padding: 12px 24px;
+    font-size: 16px;
+    margin: 8px 2px;
+    text-decoration: none;
+}
+
+.btn-green {
+    display: inline-block;
+    background-color: #0faa00;
+    color: white;
+    border: 0 none;
+    cursor:pointer;
+    padding: 12px 24px;
+    font-size: 16px;
+    margin: 8px 2px;
+    text-decoration: none;
+}

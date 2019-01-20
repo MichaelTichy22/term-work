@@ -1,8 +1,23 @@
 <div>
-    <h2>Úkoly</h2>
-    <div>
-        <a href="/task/create" class="btn-blue"><strong>[+]</strong>  Vytvořit nový</a>
-        <a href="/file/download/task" class="btn-blue">Exportovat JSON</a>
-    </div>
-    <?php $taskTable->renderTable(); ?>
+    <h2><?= $title ?></h2>
+
+        <?php if(isset($_SESSION['user'])) : ?>
+            <?php if($_SESSION['user']['role'] == 2 && $_SERVER['REQUEST_URI'] !== '/task/my-list') : ?>
+            <div>
+                <a href="/task/create" class="btn-blue"><strong>[+]</strong>  Vytvořit nový</a>
+                <a href="/file/download/task" class="btn-blue">Exportovat JSON</a>
+            </div>
+            <?php endif ?>
+        <?php endif ?>
+    <?php if($_SERVER['REQUEST_URI'] === '/task/my-list'): ?>
+        <h3>Nepřijaté</h3>
+        <?php $taskTable0->renderTable(); ?>
+        <h3>Přijaté</h3>
+        <?php $taskTable1->renderTable(); ?>
+        <h3>Dokončené</h3>
+        <?php $taskTable2->renderTable(); ?>
+    <?php else : ?>
+
+        <?php $taskTable->renderTable(); ?>
+    <?php endif; ?>
 </div>

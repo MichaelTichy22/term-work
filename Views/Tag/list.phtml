@@ -1,7 +1,11 @@
 <div>
     <h2>Tagy</h2>
     <div>
-        <a href="/tag/create" class="btn-blue"><strong>[+]</strong>  Vytvořit nový</a>
+        <?php if(isset($_SESSION['user'])) : ?>
+            <?php if($_SESSION['user']['role'] == 2) : ?>
+                <a href="/tag/create" class="btn-blue"><strong>[+]</strong>  Vytvořit nový</a>
+            <?php endif ?>
+        <?php endif ?>
         <a href="/file/download/tag" class="btn-blue">Exportovat JSON</a>
     </div>
     <?php $tagTable->renderTable(); ?>

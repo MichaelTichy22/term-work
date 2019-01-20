@@ -11,11 +11,14 @@ class TagController extends Controller
     public function listAction($parameters){
         $this->checkParametersMaxCount($parameters, 0);
 
-        if (!$_SESSION['user']){
-            if ($_SESSION['role'] < 1){
+        if ($_SESSION['user']){
+            if ($_SESSION['user']['role'] != 2){
                 $this->redirect('home/index/');
             }
+        } else {
+            $this->redirect('user/login/');
         }
+
         $tagManager = new TagManager();
         $tags = $tagManager->getAll($this->db, 'id_tag', 'ASC');
         $tagTable = new TagTable($tags, 'tag');
@@ -35,11 +38,14 @@ class TagController extends Controller
     public function createAction($parameters){
         $this->checkParametersMaxCount($parameters, 0);
 
-        if (!$_SESSION['user']){
-            if ($_SESSION['role'] != 2){
+        if ($_SESSION['user']){
+            if ($_SESSION['user']['role'] != 2){
                 $this->redirect('home/index/');
             }
+        } else {
+            $this->redirect('user/login/');
         }
+
         $tagManager = new TagManager();
         $tagForm = new TagForm('create-tag-form', 'POST', '/tag/create');
         $tagForm->build();
@@ -82,10 +88,12 @@ class TagController extends Controller
     public function editAction($parameters){
         $this->checkParametersMaxCount($parameters, 1);
 
-        if (!$_SESSION['user']){
-            if ($_SESSION['role'] != 2){
+        if ($_SESSION['user']){
+            if ($_SESSION['user']['role'] != 2){
                 $this->redirect('home/index/');
             }
+        } else {
+            $this->redirect('user/login/');
         }
 
         $tagManager = new TagManager();
@@ -144,7 +152,7 @@ class TagController extends Controller
     public function deleteAction($parameters)
     {
         if(isset($_SESSION['user'])){
-            if($_SESSION['user']['role']!=2){
+            if($_SESSION['user']['role'] != 2){
                 $this->redirect('home/index');
             }
             $this->checkParametersMaxCount($parameters, 1);

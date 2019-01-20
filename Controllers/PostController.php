@@ -9,6 +9,10 @@ class PostController extends Controller
     {
         $this->checkParametersMaxCount($parameters, 3);
 
+        if (!isset($_SESSION['user'])){
+            $this->redirect('user/login/');
+        }
+
         $postManager = new PostManager();
         $tagManager = new TagManager();
 
@@ -46,7 +50,7 @@ class PostController extends Controller
         $this->checkParametersMaxCount($parameters, 0);
 
         if(isset($_SESSION['user'])){
-            if($_SESSION['user']['role']==0){
+            if($_SESSION['user']['role'] !=  2){
                 $this->redirect('home/index');
             }
             $postManager = new PostManager();
@@ -192,7 +196,7 @@ class PostController extends Controller
     public function deleteAction($parameters)
     {
         if(isset($_SESSION['user'])){
-            if($_SESSION['user']['role']==0){
+            if($_SESSION['user']['role'] != 2){
                 $this->redirect('home/index');
             }
             $this->checkParametersMaxCount($parameters, 1);

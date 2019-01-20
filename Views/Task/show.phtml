@@ -1,0 +1,18 @@
+<?php if(isset($_SESSION['user'])) : ?>
+    <?php if($_SESSION['user']['role'] == 2) : ?>
+        <div>
+            <a href="task/edit/<?= $id ?>"class="btn-grey">Editovat</a>
+            <a href="task/delete/<?= $id ?>" class="btn-red">Smazat</a>
+        </div>
+    <?php endif ?>
+<?php endif ?>
+
+<section>
+    <h2><?= $name ?></h2>
+    <p><?= $description ?></p>
+    <span>
+        <strong>Odpracované hodiny: </strong> <?= $hours ?>
+    </span>
+    <h3>Akce</h3>
+    <?php $taskActionForm->renderForm(); ?>
+</section>

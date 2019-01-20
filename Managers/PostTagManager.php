@@ -27,4 +27,9 @@ class PostTagManager extends EntityManager
         $query = 'DELETE FROM `'.$this->table.'` WHERE id_post = ?';
         return $db->query($query, $parameters);
     }
+
+    public function deleteByTagId(DatabaseManager $db, $parameters) {
+        $query = 'DELETE FROM `'.$this->table.'` WHERE id_tag = ?';
+        return $db->query($query, $parameters);
+    }
 }

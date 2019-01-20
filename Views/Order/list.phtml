@@ -1,9 +1,17 @@
 <div>
     <h2>Zakázky</h2>
     <div>
-        <a href="/order/create" class="btn-blue"><strong>[+]</strong>  Vytvořit novou</a>
+        <?php if(isset($_SESSION['user'])) : ?>
+            <?php if($_SESSION['user']['role'] == 2) : ?>
+                <a href="/order/create" class="btn-blue"><strong>[+]</strong>  Vytvořit novou</a>
+            <?php endif ?>
+        <?php endif ?>
         <a href="/file/download/order" class="btn-blue">Exportovat JSON</a>
-        <?php $importForm->renderForm(); ?>
+        <?php if(isset($_SESSION['user'])) : ?>
+            <?php if($_SESSION['user']['role'] == 2) : ?>
+                <?php $importForm->renderForm(); ?>
+            <?php endif ?>
+        <?php endif ?>
     </div>
     <?php $orderTable->renderTable(); ?>
 </div>

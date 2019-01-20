@@ -1,0 +1,56 @@
+.form-block {
+    margin: auto;
+    max-width: 900px;
+    padding: 15px;
+    border: 2px solid #eeeeee;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+}
+
+input[type=text],[type=password] {
+    border: 2px solid #e1e1e1;
+    border-radius: 8px;
+    background-color: white;
+    font-size: 16px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+textarea {
+    border: 2px solid #e1e1e1;
+    border-radius: 8px;
+    background-color: white;
+    font-size: 16px;
+    padding: 5px;
+}
+
+label {
+    font-weight: bold;
+}
+
+select {
+    border: 2px solid #e1e1e1;
+    border-radius: 8px;
+    background-color: white;
+    font-size: 16px;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    min-width: 200px;
+}
+
+.form-messages {
+    background-color: #eeeeee;
+    border: 2px solid #989898;
+    margin: 10px 5px;
+}
+
+.form-messages ul {
+    list-style-type: none;
+    padding: 0px;
+}
+
+.form-messages ul li{
+    list-style-type: none;
+    text-align: center;
+    padding: 10px;
+}

@@ -39,7 +39,6 @@ class UserForm extends Form
                 'constraints' => [
                     'shorterThan32',
                     'notBlank',
-                    'noSpecialChars',
                 ],
             ]
         );
@@ -49,27 +48,47 @@ class UserForm extends Form
                 'constraints' => [
                     'shorterThan32',
                     'notBlank',
-                    'noSpecialChars',
                 ],
             ]
         );
-        $this->addElement('wage', 'Plat na hodinu', 'input', [
-                'type' => 'text',
+        if ($_SESSION['user']['role'] == 2) {
+            $this->addElement('wage', 'Plat na hodinu', 'input', [
+                    'type' => 'text',
+                    'required' => '',
+                    'constraints' => [
+                        'shorterThan32',
+                        'notBlank',
+                        'justNumbers',
+                    ],
+                ]
+            );
+            $this->addElement('position', 'Pozice', 'select', [
+                'options'=>$this->getSelectOptions($positions, 'id_position', ['name'], true),
                 'required' => '',
-                'constraints' => [
-                    'shorterThan32',
-                    'notBlank',
-                    'justNumbers',
+            ]);
+            $this->addElement('workplace', 'Oddělení', 'select', [
+                'options'=>$this->getSelectOptions($workplaces, 'id_workplace', ['name'], true),
+                'required' => '',
+            ]);
+            $this->addElement('role', 'Role', 'select', [
+                'options'=> [
+                    [
+                        'value'=> '0',
+                        'name' => 'Neaktivní',
+                        'selected'=> ''
+                    ], [
+                        'value'=> '1',
+                        'name' => 'Uživatel',
+                        'selected'=> ''
+                    ], [
+                        'value'=> '2',
+                        'name' => 'Administrátor',
+                        'selected'=> ''
+                    ]
+
                 ],
-            ]
-        );
-        $this->addElement('position', 'Pozice', 'select', [
-            'options'=>$this->getSelectOptions($positions, 'id_position', 'name', true),
-            'required' => '',
-        ]);
-        $this->addElement('workplace', 'Oddělení', 'select', [
-            'options'=>$this->getSelectOptions($workplaces, 'id_workplace', 'name', true),
-            'required' => '',
-        ]);
+                'required' => '',
+            ]);
+        }
     }
 }

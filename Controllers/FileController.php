@@ -9,6 +9,12 @@
 class FileController extends Controller
 {
     public function downloadAction($parameters) {
+        if (!$_SESSION['user']){
+            $this->redirect('user/login/');
+        }
+
+        $this->checkParametersMaxCount($parameters,1);
+
         $entityManager = $this->getManager($parameters[0]);
         $entities = $entityManager->getAll($this->db, 'id_'.$parameters[0], 'ASC');
 
@@ -26,6 +32,16 @@ class FileController extends Controller
     }
 
     public function importAction($parameters) {
+        if ($_SESSION['user']){
+            if ($_SESSION['user']['role'] != 2) {
+                $this->redirect('user/login/');
+            }
+        } else {
+            $this->redirect('user/login/');
+        }
+
+        $this->checkParametersMaxCount($parameters,1);
+
         $file = $_FILES['upload_file']['name'];
         $messages = [];
 

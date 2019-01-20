@@ -1,5 +1,10 @@
 <h2>Home</h2>
 <section>
+    <?php if(isset($_SESSION['user'])) : ?>
+        <?php if($_SESSION['user']['role'] == 2) : ?>
+            <a href="/post/create" class="btn-blue"><strong>[+]</strong> Vytvořit příspěvek</a>
+        <?php endif ?>
+    <?php endif ?>
     <?php if(isset($posts)) : ?>
         <?php foreach ($posts as $post) : ?>
             <hr>

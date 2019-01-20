@@ -9,9 +9,12 @@
 <?php endif; ?>
 <form id="<?= $this->getName() ?>" method="<?= $this->getMethod() ?>" action="<?= $this->getAction() ?>" enctype="<?= $this->getEnctype() ?>">
         <?php foreach ($this->getElements() as $element) : ?>
-            <div id="block-<?= $element['name']?>">
+            <div id="block-<?= $element['name']?>" class="block-<?php if(isset($element['options']['type'])) :?><?= $element['options']['type'] ?><?php endif; ?>">
                 <?php if($element['label'] !== '') : ?>
-                    <label for="<?= $element['name'] ?>"><?= $element['label'] ?></label><br>
+                    <label for="<?= $element['name'] ?>"><?= $element['label'] ?></label>
+                <?php if($element['options']['type'] !== 'checkbox') :?>
+                    <br>
+                <?php endif; ?>
                 <?php endif; ?>
                 <?php switch ($element['tag']) :
                     case 'input': ?>

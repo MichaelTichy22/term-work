@@ -32,14 +32,23 @@ class TagManager extends EntityManager
      * @param $parameters
      * @return mixed
      */
-    public function editTag(DatabaseManager $db, $parameters){
+    public function editTag(DatabaseManager $db, $parameters)
+    {
         $query = 'UPDATE '.$this->table.' SET name = ? WHERE id_'.$this->table.' = ?';
         return $db->query($query,$parameters);
     }
 
-    function getAllByPostId(DatabaseManager $db, $id) {
+    function getAllByPostId(DatabaseManager $db, $id)
+    {
         $query = 'SELECT t.id_tag, t.name FROM '.$this->table.' t INNER JOIN post_tag pt ON t.id_tag = pt.id_tag WHERE pt.id_post = ?;';
         return $db->queryAll($query, [$id]);
     }
 
+    public function deleteById(DatabaseManager $db, $id)
+    {
+        $tagPostManager = new PostTagManager();
+        $tagPostManager->deleteByTagId($db, [$id]);
+
+        return parent::deleteById($db, $id);
+    }
 }

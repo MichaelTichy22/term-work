@@ -13,10 +13,9 @@ class TaskTable extends Table
     {
         $this->addColumn('id_task', 'ID');
         $this->addColumn('name', 'Název');
-        $this->addColumn('description', 'Popis');
+        //$this->addColumn('description', 'Popis');
         $this->addColumn('hours_done', 'Odpracované hodiny');
         $this->addColumn('state', 'Stav');
-        $this->addColumn('description', 'Popis');
         $this->addColumn('firstname', 'Zaměstnanec', 'surname');
         $this->addColumn('order_name', 'Zákázka');
     }

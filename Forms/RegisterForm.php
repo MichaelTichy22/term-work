@@ -41,7 +41,6 @@ class RegisterForm extends Form
                 'constraints' => [
                     'shorterThan32',
                     'notBlank',
-                    'noSpecialChars',
                 ],
             ]
         );
@@ -51,7 +50,6 @@ class RegisterForm extends Form
                 'constraints' => [
                     'shorterThan32',
                     'notBlank',
-                    'noSpecialChars',
                 ],
             ]
         );

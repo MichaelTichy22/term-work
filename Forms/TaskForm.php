@@ -12,7 +12,7 @@ class TaskForm extends Form
     {
         $orderManager = new OrderManager();
         $userManager = new UserManager();
-        $users = $userManager->getAll($db, 'id_user', 'ASC');
+        $users = $userManager->getAllActive($db, 'id_user', 'ASC');
         $orders = $orderManager->getAll($db, 'id_order', 'ASC');
 
         $this->addElement('name', 'Název', 'input',[
@@ -33,14 +33,14 @@ class TaskForm extends Form
             ],
         ]);
         $this->addElement('orders', 'Zakázka', 'select',[
-            'options'=>$this->getSelectOptions($orders, 'id_order', 'name'),
+            'options'=>$this->getSelectOptions($orders, 'id_order', ['name']),
             'required' => 'required',
             'constraints' => [
                 'notNull',
             ],
         ]);
         $this->addElement('users', 'Zaměstanec', 'select',[
-            'options'=>$this->getSelectOptions($users, 'id_user', 'name'),
+            'options'=>$this->getSelectOptions($users, 'id_user', ['name', 'surname']),
             'required' => 'required',
             'constraints' => [
                 'notNull',

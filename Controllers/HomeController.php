@@ -14,6 +14,11 @@ class HomeController extends Controller
     public function indexAction($parameters)
     {
         $this->checkParametersMaxCount($parameters,1);
+
+        if (!$_SESSION['user']){
+            $this->redirect('user/login/');
+        }
+
         $postManager = new PostManager();
         $posts = $postManager->getAll($this->db,'create_date', 'DESC');
 

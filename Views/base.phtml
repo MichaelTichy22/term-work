@@ -1,48 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="cs">
     <head>
         <base href="/localhost">
         <meta charset="UTF-8">
         <title><?= $head['title'] ?></title>
+        <meta name="theme-color" content="#006fff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="<?= $head['description'] ?>">
         <meta name="keywords" content="<?= $head['keywords'] ?>">
         <link rel="stylesheet" href="../Css/style.css">
+        <link rel="stylesheet" href="../Css/button.css">
+        <link rel="stylesheet" href="../Css/form.css">
+        <link rel="stylesheet" href="../Css/table.css">
+        <link rel="stylesheet" href="../Css/header.css">
+        <link rel="stylesheet" href="../Css/responsive.css">
     </head>
 
     <body>
         <header>
-            <h1>Semestrální práce</h1>
-
             <nav>
-                <a href="/">Domů</a>
+                <a href="#" class="menu-icon"><img src="../Files/Images/Menu/menu.png" style="height: 34px;" alt="menu-icon"></a>
                 <?php if(isset($_SESSION['user'])) : ?>
+                    <a href="/" class="menu-button">Domů</a>
+                    <a href="/user/list" class="menu-button">Zaměstnanci</a>
                     <?php if($_SESSION['user']['role'] == 2) : ?>
-                        <a href="/user/list">Zaměstnanci</a>
-                        <a href="/position/list">Pracovní pozice</a>
-                        <a href="/workplace/list">Oddělení</a>
-                        <a href="/order/list">Zakázky</a>
-                        <a href="/task/list">Úkoly</a>
-                        <a href="/post/create">Vytvořit příspěvek</a>
-                        <a href="/tag/list">Štítky</a>
+                        <a href="/position/list" class="menu-button">Pracovní pozice</a>
+                        <a href="/workplace/list" class="menu-button">Oddělení</a>
+                        <a href="/order/list" class="menu-button">Zakázky</a>
+                        <a href="/task/list" class="menu-button">Úkoly</a>
+                        <a href="/tag/list" class="menu-button">Štítky</a>
                     <?php endif ?>
-                    <a href="/user/logout">Odhlásit se</a>
+
+                    <div class="login-info">
+                        <i>
+                            Přihlášen jako: <a class="user-link" href="user/edit/<?= $_SESSION['user']['id_user'] ?>"><?= $_SESSION['user']['name']." ".$_SESSION['user']['surname'] ?></a>
+                        </i>
+                    </div>
+                    <a href="/task/my-list" class="menu-button">Moje úkoly</a>
+                    <a href="/user/logout" class="menu-button">Odhlásit se</a>
                 <?php else: ?>
-                    <a href="/user/login">Přihlásit se</a>
-                    <a href="/user/register">Registrace</a>
+                    <a href="/user/login" class="menu-button">Přihlásit se</a>
+                    <a href="/user/register" class="menu-button">Registrace</a>
                 <?php endif; ?>
             </nav>
-            </header>
-        <?php if(isset($_SESSION['user'])) : ?>
-                <div>
-                    <p>
-                        Přihlášen jako: <?= $_SESSION['user']['name']." ".$_SESSION['user']['surname'] ?>
-                        <?php if($_SESSION['user']['role'] == 2) : ?>
-                            (Administrátor)
-                        <?php endif ?>
-                    </p>
-                </div>
-        <?php endif; ?>
-        <hr>
+        </header>
         <article class="main">
             <?php $controller->renderView() ?>
         </article>

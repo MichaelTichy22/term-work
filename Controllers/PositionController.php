@@ -11,11 +11,14 @@ class PositionController extends Controller
     public function listAction($parameters){
         $this->checkParametersMaxCount($parameters, 0);
 
-        if (!$_SESSION['user']){
-            if ($_SESSION['role'] != 2){
+        if ($_SESSION['user']){
+            if ($_SESSION['user']['role'] != 2){
                 $this->redirect('home/index/');
             }
+        } else {
+            $this->redirect('user/login/');
         }
+
         $positionManager = new PositionManager();
         $positions = $positionManager->getAll($this->db, 'id_position', 'ASC');
         $positionTable = new PositionTable($positions, 'position');
@@ -35,11 +38,14 @@ class PositionController extends Controller
     public function createAction($parameters){
         $this->checkParametersMaxCount($parameters, 0);
 
-        if (!$_SESSION['user']){
-            if ($_SESSION['role'] != 2){
+        if ($_SESSION['user']){
+            if ($_SESSION['user']['role'] != 2){
                 $this->redirect('home/index/');
             }
+        } else {
+            $this->redirect('user/login/');
         }
+
         $positionManager = new PositionManager();
         $positionForm = new PositionForm('create-position-form', 'POST', '/position/create');
         $positionForm->build();
@@ -82,10 +88,12 @@ class PositionController extends Controller
     public function editAction($parameters){
         $this->checkParametersMaxCount($parameters, 1);
 
-        if (!$_SESSION['user']){
-            if ($_SESSION['role'] != 2){
+        if ($_SESSION['user']){
+            if ($_SESSION['user']['role'] != 2){
                 $this->redirect('home/index/');
             }
+        } else {
+            $this->redirect('user/login/');
         }
 
         $positionManager = new PositionManager();

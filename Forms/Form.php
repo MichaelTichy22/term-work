@@ -44,6 +44,8 @@ abstract class Form
     public function renderForm()
     {
         require './Views/Form/form.phtml';
+
+        unset($_SESSION['message']);
     }
 
     /**
@@ -52,7 +54,7 @@ abstract class Form
      * @param $keyName
      * @return array
      */
-    protected function getSelectOptions($entities, $keyValue, $keyName, $nullValue = false)
+    protected function getSelectOptions($entities, $keyValue, $keyNames, $nullValue = false)
     {
         $options = [];
 
@@ -64,7 +66,9 @@ abstract class Form
         foreach ($entities as $entity){
             $option = ['value'=> '', 'name' => '', 'selected'=>''];
             $option['value'] = $entity[$keyValue];
-            $option['name'] = $entity[$keyName];
+            foreach ($keyNames as $keyName) {
+                $option['name'] = $option['name'].' '.$entity[$keyName];
+            }
             $options[]=$option;
         }
 

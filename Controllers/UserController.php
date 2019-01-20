@@ -30,21 +30,25 @@ class UserController extends Controller
 
             if(!$form->isValid()){
                 $messages = $form->getMessages();
-                $this->redirectWithMessages('user/login',$messages);
+                $_SESSION['message'] = $messages;
+                $this->redirect('user/login',true, 303);
             }
 
             if (password_verify($_POST['password'], $user['password'])){
                 if ($user['role'] == 0){
                     $messages[] = 'Zadaný uživatelský účet zatím nebyl aktivován!';
-                    $this->redirectWithMessages('user/login',$messages);
+                    $_SESSION['message'] = $messages;
+                    $this->redirect('user/login',true, 303);
                 }
                 $_SESSION['user'] = $user;
+                $_SESSION['message'] = $messages;
                 $this->redirect('home/index',true, 303);
 
             }else{
                 $messages[] = 'Špatné uživatelské jméno nebo heslo!';
             }
-            $this->redirectWithMessages('user/login',$messages);
+            $_SESSION['message'] = $messages;
+            $this->redirect('user/login',true, 303);
         }
 
         $this->head = [
@@ -104,11 +108,13 @@ class UserController extends Controller
                     $this->redirect('user/register',true, 303);
                 }else{
                     $messages[] = 'Email '.$_POST['email'].' už je registrovaný!';
+                    $_SESSION['message'] = $messages;
                 }
             }else{
                 $messages[] = 'Uživatelské jméno '.$_POST['username'].' je zabráno';
+                $_SESSION['message'] = $messages;
             }
-            $this->redirectWithMessages('user/register',$messages);
+            $this->redirect('user/register',true, 303);
         }
 
         $this->head = [
@@ -145,7 +151,7 @@ class UserController extends Controller
     {
         $this->checkParametersMaxCount($parameters, 0);
 
-        if (!$_SESSION['user']){
+        if (!isset($_SESSION['user'])) {
             $this->redirect('home/index/');
         }
 
@@ -169,9 +175,7 @@ class UserController extends Controller
         $this->checkParametersMaxCount($parameters, 1);
 
         if(isset($_SESSION['user'])) {
-            if ($_SESSION['user']['role'] != 2) {
-                $this->redirect('home/index');
-            }
+
 
             $userManager = new UserManager();
             $userId = $parameters[0];
@@ -180,56 +184,105 @@ class UserController extends Controller
                 $this->redirect('error/er404');
             }
 
-            $form = new UserForm('userForm', 'post', '/user/edit/' . $userId);
-            $form->build($this->db);
-            $form->addElement('submit-edit', '', 'input', [
+            if ($_SESSION['user']['role'] != 2 && $_SESSION['user']['role'] != $user['role']) {
+                $this->redirect('home/index');
+            }
+
+            $userForm = new UserForm('userForm', 'post', '/user/edit/' . $userId);
+            $userForm->build($this->db);
+            $userForm->addElement('submit-edit', '', 'input', [
                 'type' => 'submit',
                 'class' => 'btn-blue',
             ], 'Editovat');
 
-            $form->setValues([
+            $passwordForm = new UserPasswordForm('passwordForm', 'post','/user/edit/' . $userId);
+            $passwordForm->build();
+
+            $userForm->setValues([
                 $user['email'],
                 $user['name'],
                 $user['surname'],
                 $user['wage'],
                 $user['id_position'],
                 $user['id_workplace'],
+                $user['role'],
             ]);
 
             $this->data['messages'] = [];
 
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                if (isset($_POST['change_password'])){
 
-                $form->setValues([
-                    $_POST['email'],
-                    $_POST['name'],
-                    $_POST['surname'],
-                    $_POST['wage'],
-                    $_POST['id_position'],
-                    $_POST['id_workplace'],
-                ]);
-                $messages = [];
+                    $passwordForm->setValues([
+                        $_POST['password_old'],
+                        $_POST['password_new'],
+                    ]);
 
-                if ($form->isValid()) {
-                    $userManager->editUser(
-                        $this->db,
-                        [
-                            $_POST['email'],
-                            $_POST['name'],
-                            $_POST['surname'],
-                            $_POST['wage'],
-                            $_POST['position'],
-                            $_POST['workplace'],
-                            $user['id_user'],
-                        ]
-                    );
-                    $messages = ['Uživatel byl úspěšně editován'];
+                    $messages = [];
+
+                    if ($passwordForm->isValid()) {
+                        if (password_verify($_POST['password_old'], $user['password'])) {
+                            $userManager->changePassword($this->db, [
+                                password_hash($_POST['password_new'], PASSWORD_DEFAULT),
+                                $userId,
+                            ]);
+
+                            $messages = ['Heslo bylo úspěšně změněno'];
+                        } else {
+                            $messages = ['Špatně zadané heslo'];
+                        }
+                    } else {
+                        $messages = $passwordForm->getMessages();
+                    }
+
+                    $_SESSION['message'] = $messages;
+                    $this->redirect('user/edit/' . $userId, true, 303);
                 } else {
-                    $messages = $form->getMessages();
-                }
+                    if ($_SESSION['user']['role'] == 1){
+                        $wage = $user['wage'];
+                        $position = $user['id_position'];
+                        $workplace = $user['id_workplace'];
+                        $role = $user['role'];
+                    } else {
+                        $wage = $_POST['wage'];
+                        $position = $_POST['position'];
+                        $workplace = $_POST['workplace'];
+                        $role = $_POST['role'];
+                    }
 
-                $_SESSION['message'] = $messages;
-                $this->redirect('user/edit/' . $userId, true, 303);
+                    $userForm->setValues([
+                        $_POST['email'],
+                        $_POST['name'],
+                        $_POST['surname'],
+                        $wage,
+                        $position,
+                        $workplace,
+                        $role,
+                    ]);
+                    $messages = [];
+
+                    if ($userForm->isValid()) {
+                        $userManager->editUser(
+                            $this->db,
+                            [
+                                $_POST['email'],
+                                $_POST['name'],
+                                $_POST['surname'],
+                                $wage,
+                                $position,
+                                $workplace,
+                                $role,
+                                $user['id_user'],
+                            ]
+                        );
+                        $messages = ['Uživatel byl úspěšně editován'];
+                    } else {
+                        $messages = $userForm->getMessages();
+                    }
+
+                    $_SESSION['message'] = $messages;
+                    $this->redirect('user/edit/' . $userId, true, 303);
+                }
             }
 
             $this->head = [
@@ -238,7 +291,8 @@ class UserController extends Controller
                 'description' => 'Formulář pro editaci uživatele ',
             ];
 
-            $this->data['form'] = $form;
+            $this->data['userForm'] = $userForm;
+            $this->data['passwordForm'] = $passwordForm;
             $this->data['header'] = 'Editovat uživatele';
 
             $this->view = 'User/form';

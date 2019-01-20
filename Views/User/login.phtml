@@ -1,15 +1,11 @@
+
+<div class="welcome-header">
+    <h1>Informační systém</h1>
+    <p>Semestrální práce Michael Tichý</p>
+</div>
+
 <div class="form-block">
     <h2>Login</h2>
-
-    <div id="loginFormMessages">
-        <?php if(!empty($_SESSION['message'])): ?>
-            <ul>
-                <?php foreach ($_SESSION['message'] as $message) : ?>
-                    <li><?= $message ?></li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
-    </div>
     <?php $form->renderForm() ?>
     <p><a href="/user/register">Zaregistrovat</a></p>
 </div>

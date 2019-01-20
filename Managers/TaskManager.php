@@ -38,7 +38,27 @@ class TaskManager extends EntityManager
      * @return mixed
      */
     public function editTask(DatabaseManager $db, $parameters){
-        $query = 'UPDATE '.$this->table.' SET name = ?, description = ?, id_order = ?, id_user = ?  WHERE id_'.$this->table.' = ?';
+        $query = 'UPDATE '.$this->table.' SET name = ?, description = ?, id_order = ?, id_user = ?, state = ?  WHERE id_'.$this->table.' = ?';
+        return $db->query($query,$parameters);
+    }
+
+    /**
+     * @param DatabaseManager $db
+     * @param $parameters
+     * @return mixed
+     */
+    public function editTaskState(DatabaseManager $db, $parameters){
+        $query = 'UPDATE '.$this->table.' SET state = ?  WHERE id_'.$this->table.' = ?';
+        return $db->query($query,$parameters);
+    }
+
+    /**
+     * @param DatabaseManager $db
+     * @param $parameters
+     * @return mixed
+     */
+    public function editTaskHoursState(DatabaseManager $db, $parameters){
+        $query = 'UPDATE '.$this->table.' SET hours_done = ?, state = ?  WHERE id_'.$this->table.' = ?';
         return $db->query($query,$parameters);
     }
 
@@ -59,5 +79,13 @@ class TaskManager extends EntityManager
                   FROM task t LEFT JOIN user u ON t.id_user = u.id_user 
                   LEFT JOIN `order` o ON t.id_order = o.id_order ORDER BY '.$orderBy.' '.$order;
         return $db->queryAll($query);
+    }
+
+    public function getAllByUser(DatabaseManager $db, $orderBy, $order, $idUser)
+    {
+        $query = 'SELECT t.id_task, t.name, t.description, t.hours_done, t.state, t.id_user, t.id_order, u.name AS firstname, u.surname, o.name AS order_name
+                  FROM task t LEFT JOIN user u ON t.id_user = u.id_user 
+                  LEFT JOIN `order` o ON t.id_order = o.id_order WHERE t.id_user = ? ORDER BY '.$orderBy.' '.$order;
+        return $db->queryAll($query, [$idUser]);
     }
 }
