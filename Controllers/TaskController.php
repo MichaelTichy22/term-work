@@ -44,11 +44,16 @@ class TaskController extends Controller
         }
 
         $taskManager = new TaskManager();
-        $tasks = $taskManager->getAllByUser($this->db, 'state', 'ASC', $_SESSION['user']['id_user']);
+        $tasks = $taskManager->getAllByUser(
+            $this->db,
+            'state',
+            'ASC',
+            $_SESSION['user']['id_user']
+        );
 
         $tasks0 = [];
         $tasks1 = [];
-        $tasks3 = [];
+        $tasks2 = [];
 
         foreach ($tasks as $task) {
             if ($task['state'] === '0') {
