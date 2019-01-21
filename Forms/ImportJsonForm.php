@@ -15,7 +15,7 @@ class ImportJsonForm extends Form
            'class' => 'btn-blue',
        ], 'Importovat JSON');
 
-       $this->addElement('upload_file', null, 'input', [
+       $this->addElement('upload_file', '->', 'input', [
            'type' => 'file',
            'constraints' => [
                'notNull',
